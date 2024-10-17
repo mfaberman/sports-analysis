@@ -8,13 +8,14 @@ View(project_sheet)
 # MAIN PLOT AND SETTING UP THE BASE MODEL 
 
 colors = c("green", "#A9A9A9","orange", "blue", "red")
-plot(project_sheet$Ranking + sf + sg + sf + pf, project_sheet$`ESPN NEXT YR RANKING`, pch = 19, col = colors[factor(project_sheet$Position)], xlab = "Seasonal Win Share Ranking", ylab = "Seasonal ESPN Top 100 Ranking")
-legend("topleft", legend = c("C", "PF", "PG", "SF", "SG"), pch = 19, col = colors)
 center = ifelse(project_sheet$Position == "C", 1, 0)
 sf = ifelse(project_sheet$Position == "SF", 1, 0)
 sg = ifelse(project_sheet$Position == "SG", 1, 0)
 pg = ifelse(project_sheet$Position == "PG", 1, 0)
 pf = ifelse(project_sheet$Position == "PF", 1, 0)
+plot(project_sheet$Ranking + sf + sg + sf + pf, project_sheet$`ESPN NEXT YR RANKING`, pch = 19, col = colors[factor(project_sheet$Position)], xlab = "Seasonal Win Share Ranking", ylab = "Seasonal ESPN Top 100 Ranking")
+legend("topleft", legend = c("C", "PF", "PG", "SF", "SG"), pch = 19, col = colors)
+
 
 
 #TESTING CENTER SIGNIFICANCE
@@ -40,11 +41,13 @@ summary(plot5)
 
 # MODEL FOR PREDICTING ESPN RANKING
 
-sg = ifelse(project_sheet$Position == "SG", 1, 0)
-center = ifelse(project_sheet$Position == "C", 1, 0)
-plot4 = lm(`ESPN NEXT YR RANKING` ~ USG_PCT + BPM + PER + `3PA_PCT` + WS_BPM + Age + GP + MP + Age * GP, data = project_sheet)  
+plot4 = lm(`ESPN NEXT YR RANKING` ~ USG_PCT + BPM + Age + MPG + PER + `3PA_PCT` + WS_BPM + GP, data = project_sheet)  
 summary(plot4)
 
+# THIS MODEL HAS MINIMALLY LOWER R SQUARED AND HALF THE PREDICTORS
+
+plot66 = lm(`ESPN NEXT YR RANKING` ~ USG_PCT + BPM + Age + MPG, data = project_sheet)  
+summary(plot66)
 
 # BPM PLOT AND MODEL
 
